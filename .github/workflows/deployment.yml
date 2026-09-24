@@ -33,3 +33,9 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag and push backend image
+        run: |
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/backend:${{ github.sha }} ./backend
+          docker push ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/backend:${{ github.sha }}
+
