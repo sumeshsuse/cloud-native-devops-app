@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Suse Project</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #1a1a2e;
+      color: white;
+    }
+    .container {
+      text-align: center;
+      padding: 40px;
+      background: #16213e;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    h1 { color: #0f3460; color: #e94560; }
+    button {
+      background: #e94560;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+    button:hover { background: #c73652; }
+    #response {
+      margin-top: 20px;
+      padding: 16px;
+      background: #0f3460;
+      border-radius: 8px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Suse Project 🚀</h1>
+    <p>Frontend talking to Backend!</p>
+    <button onclick="callBackend()">
+      Call Backend API
+    </button>
+    <div id="response"></div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
