@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM node:20.17.0-alpine AS builder
 COPY index.html /usr/share/nginx/html/
 COPY app.js /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/conf.d/default.conf
