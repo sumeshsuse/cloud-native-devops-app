@@ -1,0 +1,29 @@
+backend:
+  image:
+    repository: 654654498789.dkr.ecr.us-east-1.amazonaws.com/cloud-native-devops-app/backend
+    tag: latest
+  replicaCount: 2
+  port: 5050
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+
+frontend:
+  image:
+    repository: 654654498789.dkr.ecr.us-east-1.amazonaws.com/cloud-native-devops-app/frontend
+    tag: latest
+  replicaCount: 2
+  port: 80
+  service:
+    type: LoadBalancer
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
