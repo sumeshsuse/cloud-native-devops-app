@@ -1,4 +1,12 @@
-FROM node:20.17.0-alpine AS builder
+FROM nginx:alpine
+RUN apk update && apk upgrade --no-cache
+RUN rm -rf /usr/local/lib/node_modules/npm \
+           /usr/local/lib/node_modules/corepack \
+           /opt/yarn-v* \
+           /usr/local/bin/npm \
+           /usr/local/bin/npx \
+           /usr/local/bin/corepack \
+           2>/dev/null || true
 COPY index.html /usr/share/nginx/html/
 COPY app.js /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/conf.d/default.conf
