@@ -16,7 +16,6 @@ permissions:
   id-token: write
   contents: read
 
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -34,8 +33,64 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build, tag and push backend image
-        run: |
-          docker build -t ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/backend:${{ github.sha }} ./backend
-          docker push ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/backend:${{ github.sha }}
+      - name: Build backend image (load locally, don't push yet)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          platforms: linux/amd64
+          push: false
+          load: true
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/backend:${{ github.sha }}
+            ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/backend:latest
+          cache-from: type=gha,scope=backend
+          cache-to: type=gha,mode=max,scope=backend
 
+      - name: Scan backend image before pushing
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/backend:${{ github.sha }}
+          severity: CRITICAL,HIGH
+          exit-code: 1
+
+      - name: Push backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/backend:${{ github.sha }}
+            ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/backend:latest
+          cache-from: type=gha,scope=backend
+
+      - name: Build frontend image (load locally, don't push yet)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          platforms: linux/amd64
+          push: false
+          load: true
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/frontend:${{ github.sha }}
+            ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/frontend:latest
+          cache-from: type=gha,scope=frontend
+          cache-to: type=gha,mode=max,scope=frontend
+
+      - name: Scan frontend image before pushing
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/frontend:${{ github.sha }}
+          severity: CRITICAL,HIGH
+          exit-code: 1
+
+      - name: Push frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/frontend:${{ github.sha }}
+            ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/frontend:latest
+          cache-from: type=gha,scope=frontend

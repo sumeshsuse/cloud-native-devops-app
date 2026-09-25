@@ -4,7 +4,7 @@ async function callBackend() {
   responseDiv.innerHTML = 'Loading...';
 
   try {
-    const response = await fetch('http://localhost:5050/api/hello');
+    const response = await fetch('http://backend:5050/api/hello');;
     const data = await response.json();
     responseDiv.innerHTML = `
       <p>✅ Message: ${data.message}</p>
