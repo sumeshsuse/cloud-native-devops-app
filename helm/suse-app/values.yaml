@@ -19,7 +19,7 @@ frontend:
   replicaCount: 2
   port: 80
   service:
-    type: LoadBalancer
+    type: ClusterIP
   resources:
     requests:
       cpu: 100m
