@@ -97,3 +97,12 @@ jobs:
             ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/frontend:${{ github.sha }}
             ${{ steps.login-ecr.outputs.registry }}/cloud-native-devops-app/frontend:latest
           cache-from: type=gha,scope=frontend
+
+      - name: Update kubeconfig
+        run: aws eks update-kubeconfig --name practice-cluster --region us-east-1
+
+      - name: Deploy with Helm
+        run: |
+          helm upgrade --install suse-app helm/suse-app \
+            --set backend.image.tag=${{ github.sha }} \
+            --set frontend.image.tag=${{ github.sha }}
