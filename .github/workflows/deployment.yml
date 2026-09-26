@@ -37,7 +37,7 @@ jobs:
       - name: Run tests
         working-directory: ./backend
         run: npm test
-        
+
   build-and-push:
     runs-on: ubuntu-latest
     steps:
@@ -127,3 +127,5 @@ jobs:
           helm upgrade --install suse-app helm/suse-app \
             --set backend.image.tag=${{ github.sha }} \
             --set frontend.image.tag=${{ github.sha }}
+            --atomic \
+            --timeout 5m
