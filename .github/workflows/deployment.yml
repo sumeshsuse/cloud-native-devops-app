@@ -124,8 +124,4 @@ jobs:
 
       - name: Deploy with Helm
         run: |
-          helm upgrade --install suse-app helm/suse-app \
-            --set backend.image.tag=${{ github.sha }} \
-            --set frontend.image.tag=${{ github.sha }}
-            --atomic \
-            --timeout 5m
+          helm upgrade --install suse-app helm/suse-app --set backend.image.tag=${{ github.sha }} --set frontend.image.tag=${{ github.sha }} --atomic --timeout 5m
