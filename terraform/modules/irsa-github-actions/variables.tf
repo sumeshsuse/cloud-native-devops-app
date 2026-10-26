@@ -17,3 +17,26 @@ variable "github_branch" {
   description = "branch allowed to assume this role"
   default     = "main"
 }
+
+variable "github_org_id" {
+  type        = string
+  description = "numeric GitHub account ID used in the OIDC subject"
+}
+
+variable "github_repo_id" {
+  type        = string
+  description = "numeric GitHub repository ID used in the OIDC subject"
+}
+
+
+variable "state_bucket" {
+  type = string
+}
+
+variable "state_key_prefix" {
+  type = string
+}
+
+variable "lock_table" {
+  type = string
+}
