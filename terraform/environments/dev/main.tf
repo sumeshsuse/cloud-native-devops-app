@@ -62,4 +62,9 @@ module "irsa_github_actions" {
   github_org    = var.github_org
   github_repo   = var.github_repo
   github_branch = var.github_branch
+  github_org_id  = var.github_org_id
+  github_repo_id = var.github_repo_id
+  state_bucket     = var.state_bucket
+  state_key_prefix = var.state_key_prefix
+  lock_table       = var.lock_table
 }
