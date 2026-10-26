@@ -23,6 +23,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Show OIDC subject
+        run: |
+          python3 - <<'E'
+          import os, json, base64, urllib.request as u
+          r = u.Request(os.environ['ACTIONS_ID_TOKEN_REQUEST_URL'] + '&audience=sts.amazonaws.com', headers={'Authorization': 'bearer ' + os.environ['ACTIONS_ID_TOKEN_REQUEST_TOKEN']})
+          t = json.load(u.urlopen(r))['value'].split('.')[1]
+          c = json.loads(base64.urlsafe_b64decode(t + '=' * (-len(t) % 4)))
+          print({k: c[k] for k in ('sub', 'aud', 'ref', 'event_name')})
+          E
+
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
