@@ -120,7 +120,7 @@ jobs:
           cache-from: type=gha,scope=frontend
 
       - name: Update kubeconfig
-        run: aws eks update-kubeconfig --name practice-cluster --region us-east-1
+        run: aws eks update-kubeconfig --name suse-eks-dev --region us-east-1
 
       - name: Deploy with Helm
         run: |
